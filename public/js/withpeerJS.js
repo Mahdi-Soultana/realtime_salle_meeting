@@ -7,6 +7,7 @@ const roomInput = document.querySelector(".room");
 const local = document.querySelector(".local");
 const remote = document.querySelector(".remote");
 const connectIcons = document.querySelectorAll("form span");
+const hangUpBtn = document.querySelector("#hangUpBtn");
 const iceServers = {
   config: {
     iceServers: [
@@ -87,6 +88,9 @@ function endCall() {
 
   remote.children[0].srcObject = null;
   local.children[0].srcObject = null;
+  setTimeout(() => {
+    document.location.reload(true);
+  }, 1000);
 }
 //listiners sockets
 socket.on("created", (data) => {
@@ -127,25 +131,27 @@ peer.on("disconnected", function () {
   peer.disconnect();
   peer.destroy();
   endCall();
-  document.location.reload(true);
 });
 
 window.onbeforeunload = function () {
+  e.preventDefault();
   status = false;
   checkActive();
-  e.preventDefault();
-  alert("You are now leaving, are you sure?");
-  peer.disconnect();
-  peer.destroy();
   e.returnValue = "";
 };
-
+checkActive();
 function checkActive() {
   if (status) {
+    hangUpBtn.style.display = "flex";
     connectIcons[1].style.display = "inline";
     connectIcons[0].style.display = "none";
   } else {
     connectIcons[0].style.display = "inline";
     connectIcons[1].style.display = "none";
+    hangUpBtn.style.display = "none";
   }
 }
+
+hangUpBtn.addEventListener("click", () => {
+  endCall();
+});
