@@ -88,9 +88,6 @@ function endCall() {
 
   remote.children[0].srcObject = null;
   local.children[0].srcObject = null;
-  setTimeout(() => {
-    document.location.reload(true);
-  }, 1000);
 }
 //listiners sockets
 socket.on("created", (data) => {
@@ -127,18 +124,23 @@ socket.on("disconnected", () => {
   peer.disconnect();
 });
 peer.on("disconnected", function () {
-  alert("your Friend is Ended The Call ! ");
-  peer.disconnect();
-  peer.destroy();
-  endCall();
+  isHanginUp
+    ? alert("Are You Sure Ending this Call ? ")
+    : alert("your Friend is Ended The Call ! ");
+  // peer.disconnect();
+  // peer.destroy();
+
+  document.location.reload(true);
+  // endCall();
 });
 
-window.onbeforeunload = function () {
-  e.preventDefault();
-  status = false;
-  checkActive();
-  e.returnValue = "";
-};
+// window.onbeforeunload = function (e) {
+//   e.preventDefault();
+//   status = false;
+//   isHanginUp = true;
+//   checkActive();
+//   e.returnValue = "";
+// };
 checkActive();
 function checkActive() {
   if (status) {
@@ -151,7 +153,9 @@ function checkActive() {
     hangUpBtn.style.display = "none";
   }
 }
-
+let isHanginUp;
 hangUpBtn.addEventListener("click", () => {
+  isHanginUp = true;
   endCall();
+  peer.destroy();
 });
