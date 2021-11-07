@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>live_App</title>
+  </head>
+  <body>
+    <h1>WEBRTC APP</h1>
+
+    <form>
+      <div>
+        <label for="room">Enter Your Room Name:</label>
+        <input type="text" name="room" class="room" />
+      </div>
+      <button type="submit">connect</button>
+      <span>🔴</span>
+      <span>🟢 </span>
+    </form>
+    <!-- Realtime Section -->
+    <section class="rooms">
+      <div class="local">
+        <video autoplay muted></video>
+      </div>
+      <div class="remote">
+        <video autoplay></video>
+      </div>
+    </section>
+    <!-- Realtime Section -->
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="./js/withpeerJS.js" type="module"></script>
+  </body>
+</html>
